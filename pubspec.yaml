@@ -1,0 +1,62 @@
+name: otobessy #goldenhorse # goldenhorse otobessy
+description: A new Flutter project.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.33+33
+#version: 1.0.25+25
+
+environment:
+  sdk: '>=3.2.2 <4.0.0'
+  #sdk: '>=2.19.2 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.6.0
+  signature: ^6.3.0
+  cupertino_icons: ^1.0.2
+  google_maps_flutter: ^2.2.5
+  geolocator: ^14.0.2
+  path_provider: ^2.1.5
+  webview_flutter: ^4.13.1
+
+  # flutter_webview_plugin: ^0.4.0
+  #webview_flutter: ^4.4.2
+
+  flutter_launcher_icons: ^0.14.4
+  #flutter_facebook_login: ^3.0.0
+  # flutter_login_facebook: ^3.0.1
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+flutter_icons:
+  image_path: "assets/pics/icon.png" 
+  android: true
+  ios: true
+
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: cairo
+      fonts:
+      - asset: assets/fonts/cairoregular.ttf
+  assets:
+    - assets/pics/logo.png
+    - assets/pics/seatbooked.png
+    - assets/pics/seatfree.png
+    - assets/pics/seatselected.png
+    - assets/pics/cancelseat.png
+    - assets/pics/cards.png
+    - assets/pics/fawry.png
+    #- assets/pics/free_Hosan.png
+    #- assets/pics/logo_Hosan.png
+    #- assets/pics/logo_Hosan2.png
+    - assets/pics/icon.png
+    #- assets/pics/icon2.png
+    - assets/pics/coupon.png
