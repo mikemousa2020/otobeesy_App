@@ -1,7 +1,7 @@
 import 'dart:convert';
 //import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'booking_PayByCredit.dart';
+import 'booking_NewPayByCredit.dart';
 import 'booking_PayByFawry.dart';
 import 'callApi.dart';
 import 'myDrawer.dart';
@@ -89,7 +89,7 @@ class _BookingState extends State<Booking> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => BookingPayByCredit()));
+                                  builder: (context) => BookingNewPayByCredit()));
                         },
                         child: Container(
                           color: Colors.white,

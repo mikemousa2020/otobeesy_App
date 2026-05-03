@@ -14,6 +14,7 @@ String officeNameFrom = '';
 String officeNameTo = '';
 String payURL =
     isTest ? 'https://otobeesy.com:811/' : 'https://otobeesy.com:816';
+String paymentBaseUrl = isTest ? 'https://gobus-eg.app:813' : 'https://go-bus.com:815';
 String appTitle = companyID == 10 ? 'اتوبيسى' : 'الحصان الذهبى';
 
 List offices = [];
@@ -358,6 +359,7 @@ Future holdSeats() {
     api +=
         '&comeSeats=${myTripCome.seatsStr}&comeTripSubData_Id=${myTripCome.tripSubDataId}${apiToAdd()}';
   }
+  print('===> HoldSeats REQUEST: $api');
   return http.get(Uri.parse(api));
 }
 
