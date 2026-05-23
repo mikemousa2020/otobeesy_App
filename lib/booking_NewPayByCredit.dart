@@ -76,7 +76,7 @@ class _BookingNewPayByCreditState extends State<BookingNewPayByCredit> {
           },
           onNavigationRequest: (request) {
             print('===> WebView onNavigationRequest: ${request.url}');
-            final url = request.url.toLowerCase();
+            final url = request.url;
             
             if (url.contains('OtpCallBack') || url.contains('Thanks')) {
               print('===> SUCCESS - Payment callback detected!');
