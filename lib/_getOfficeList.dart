@@ -2,6 +2,7 @@ library goldenhorse;
 
 import 'package:flutter/material.dart';
 import 'callApi.dart';
+import 'station_data.dart';
 
 class GetOffLi extends StatelessWidget {
   final li;
@@ -85,7 +86,7 @@ class _OfficePnlState extends State<OfficePnl> {
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) => GetOffice(widget.direction, refresh),
+          builder: (context) => SearchableGetOffice(widget.direction, refresh),
         );
       },
       child: Container(
@@ -174,6 +175,160 @@ class _GetOfficeState extends State<GetOffice> {
             },
           );
         },
+      ),
+    );
+  }
+}
+
+/// A searchable, region-grouped station selection dialog.
+///
+/// Replaces the flat [GetOffice] dialog with a grouped experience:
+/// stations are organized by region, searchable by Arabic name,
+/// and duplicates are disambiguated with code suffixes.
+class SearchableGetOffice extends StatefulWidget {
+  final int direction;
+  final VoidCallback notifyParent;
+
+  const SearchableGetOffice(this.direction, this.notifyParent, {super.key});
+
+  @override
+  State<SearchableGetOffice> createState() => _SearchableGetOfficeState();
+}
+
+class _SearchableGetOfficeState extends State<SearchableGetOffice> {
+  late TextEditingController _searchController;
+  List<StationGroup> _groups = [];
+  List<StationGroup> _filteredGroups = [];
+  bool isSearching = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+    _groups = groupStationsByRegion(offices);
+    _filteredGroups = _groups;
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        title: const Center(child: Text('اختار المحطة')),
+        backgroundColor: myColors.dark,
+      ),
+      body: Column(
+        children: [
+          // Search field
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'ابحث عن محطة',
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: _searchController.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          _searchController.clear();
+                          setState(() {
+                            _filteredGroups = _groups;
+                          });
+                        },
+                      )
+                    : null,
+                border: const OutlineInputBorder(),
+              ),
+              onChanged: (query) {
+                setState(() {
+                  if (query.isEmpty) {
+                    _filteredGroups = _groups;
+                  } else {
+                    _filteredGroups = filterStations(_groups, query);
+                  }
+                });
+              },
+            ),
+          ),
+          // Results area
+          Expanded(
+            child: _filteredGroups.isEmpty
+                ? const Center(child: Text('لا توجد نتائج'))
+                : ListView(
+                    children: _filteredGroups.map((group) {
+                      return ExpansionTile(
+                        title: Text(
+                          group.regionName,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        initiallyExpanded: false,
+                        children: group.stations.map((station) {
+                          // Disambiguate the duplicate stations (both named "أحمد حلمي")
+                          final isDuplicate =
+                              station.code == 585 || station.code == 2113;
+                          final displayName = isDuplicate
+                              ? '${station.nameA} (Code: ${station.code})'
+                              : station.nameA;
+                          final bool isSelected = widget.direction == 1
+                              ? codeFrom == station.code
+                              : codeTo == station.code;
+
+                          return InkWell(
+                            onTap: () {
+                              if (widget.direction == 1) {
+                                codeFrom = station.code;
+                                officeNameFrom = station.nameA;
+                              } else {
+                                codeTo = station.code;
+                                officeNameTo = station.nameA;
+                              }
+                              widget.notifyParent();
+                              Navigator.of(context).pop();
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.topRight,
+                                  padding: const EdgeInsets.fromLTRB(
+                                      30.0, 5.0, 30.0, 5.0),
+                                  child: Row(
+                                    textDirection: TextDirection.rtl,
+                                    children: [
+                                      Expanded(
+                                        flex: 2,
+                                        child: Text(
+                                          displayName,
+                                          textAlign: TextAlign.end,
+                                          textDirection: TextDirection.ltr,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: isSelected
+                                            ? const Icon(Icons.check,
+                                                color: Colors.green)
+                                            : const Text(''),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Divider(),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    }).toList(),
+                  ),
+          ),
+        ],
       ),
     );
   }

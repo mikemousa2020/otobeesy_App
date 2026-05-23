@@ -2,12 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'callApi.dart';
 
-class off{
-  int Code=0;
-  String NameA='';
-}
-
-
 class MyTicket {
   int cardID=0;
   int cardStatusID=0;

@@ -1,0 +1,165 @@
+{
+  "schema_version": 2,
+  "active_work_id": "station-search-69c44323",
+  "works": {
+    "station-search-69c44323": {
+      "work_id": "station-search-69c44323",
+      "active_plan": "/Users/mabuzaid/StudioProjects/GithubProjects/otobeesy2026/.sisyphus/plans/station-search.md",
+      "plan_name": "station-search",
+      "status": "active",
+      "started_at": "2026-05-23T17:15:38.208Z",
+      "updated_at": "2026-05-23T17:23:16.707Z",
+      "session_ids": [
+        "ses_1ab24fb14ffekHYoNZrdKAlIr9"
+      ],
+      "session_origins": {
+        "ses_1ab24fb14ffekHYoNZrdKAlIr9": "direct"
+      },
+      "agent": "atlas",
+      "task_sessions": {
+        "todo:1": {
+          "task_key": "todo:1",
+          "task_label": "1",
+          "task_title": "Create `station_data.dart` — Models + Hardcoded Mapping + Grouping Logic",
+          "session_id": "ses_1aa29a613ffe5Gn9LXSYkrLqkf",
+          "agent": "Sisyphus-Junior",
+          "category": "quick",
+          "updated_at": "2026-05-23T17:17:50.420Z",
+          "started_at": "2026-05-23T17:16:39.972Z",
+          "status": "completed",
+          "ended_at": "2026-05-23T17:17:50.418Z",
+          "elapsed_ms": 70446
+        },
+        "todo:3": {
+          "task_key": "todo:3",
+          "task_label": "3",
+          "task_title": "Populate station→region mapping for all ~38 stations",
+          "session_id": "ses_1aa278c5affeaR1s5fzfiKKavy",
+          "agent": "Sisyphus-Junior",
+          "category": "quick",
+          "updated_at": "2026-05-23T17:19:06.902Z",
+          "started_at": "2026-05-23T17:18:54.647Z",
+          "status": "completed",
+          "ended_at": "2026-05-23T17:19:06.902Z",
+          "elapsed_ms": 12255
+        },
+        "todo:4": {
+          "task_key": "todo:4",
+          "task_label": "4",
+          "task_title": "Build `SearchableGetOffice` widget — Search + Grouped ExpansionTile Station List",
+          "session_id": "ses_1aa26a998ffe2CSuWbU3Po3qtJ",
+          "agent": "Sisyphus-Junior",
+          "category": "visual-engineering",
+          "updated_at": "2026-05-23T17:20:46.877Z",
+          "started_at": "2026-05-23T17:20:25.813Z",
+          "status": "completed",
+          "ended_at": "2026-05-23T17:20:46.877Z",
+          "elapsed_ms": 21064
+        },
+        "todo:5": {
+          "task_key": "todo:5",
+          "task_label": "5",
+          "task_title": "Wire `SearchableGetOffice` into `homePage.dart`",
+          "session_id": "ses_1aa2557e6ffenaSFdNA5k0yTjG",
+          "agent": "Sisyphus-Junior",
+          "category": "quick",
+          "updated_at": "2026-05-23T17:21:17.141Z",
+          "started_at": "2026-05-23T17:21:08.108Z",
+          "status": "completed",
+          "ended_at": "2026-05-23T17:21:17.141Z",
+          "elapsed_ms": 9033
+        },
+        "final-wave:f1": {
+          "task_key": "final-wave:f1",
+          "task_label": "F1",
+          "task_title": "**Plan Compliance Audit** — `oracle`",
+          "session_id": "ses_1aa247891ffe3qAMZDeEkZsTcx",
+          "agent": "oracle",
+          "updated_at": "2026-05-23T17:23:16.707Z",
+          "started_at": "2026-05-23T17:23:06.563Z",
+          "status": "completed",
+          "ended_at": "2026-05-23T17:23:16.707Z",
+          "elapsed_ms": 10144
+        }
+      }
+    }
+  },
+  "active_plan": "/Users/mabuzaid/StudioProjects/GithubProjects/otobeesy2026/.sisyphus/plans/station-search.md",
+  "started_at": "2026-05-23T17:15:38.208Z",
+  "status": "active",
+  "updated_at": "2026-05-23T17:23:16.707Z",
+  "session_ids": [
+    "ses_1ab24fb14ffekHYoNZrdKAlIr9"
+  ],
+  "session_origins": {
+    "ses_1ab24fb14ffekHYoNZrdKAlIr9": "direct"
+  },
+  "plan_name": "station-search",
+  "task_sessions": {
+    "todo:1": {
+      "task_key": "todo:1",
+      "task_label": "1",
+      "task_title": "Create `station_data.dart` — Models + Hardcoded Mapping + Grouping Logic",
+      "session_id": "ses_1aa29a613ffe5Gn9LXSYkrLqkf",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-05-23T17:17:50.420Z",
+      "started_at": "2026-05-23T17:16:39.972Z",
+      "status": "completed",
+      "ended_at": "2026-05-23T17:17:50.418Z",
+      "elapsed_ms": 70446
+    },
+    "todo:3": {
+      "task_key": "todo:3",
+      "task_label": "3",
+      "task_title": "Populate station→region mapping for all ~38 stations",
+      "session_id": "ses_1aa278c5affeaR1s5fzfiKKavy",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-05-23T17:19:06.902Z",
+      "started_at": "2026-05-23T17:18:54.647Z",
+      "status": "completed",
+      "ended_at": "2026-05-23T17:19:06.902Z",
+      "elapsed_ms": 12255
+    },
+    "todo:4": {
+      "task_key": "todo:4",
+      "task_label": "4",
+      "task_title": "Build `SearchableGetOffice` widget — Search + Grouped ExpansionTile Station List",
+      "session_id": "ses_1aa26a998ffe2CSuWbU3Po3qtJ",
+      "agent": "Sisyphus-Junior",
+      "category": "visual-engineering",
+      "updated_at": "2026-05-23T17:20:46.877Z",
+      "started_at": "2026-05-23T17:20:25.813Z",
+      "status": "completed",
+      "ended_at": "2026-05-23T17:20:46.877Z",
+      "elapsed_ms": 21064
+    },
+    "todo:5": {
+      "task_key": "todo:5",
+      "task_label": "5",
+      "task_title": "Wire `SearchableGetOffice` into `homePage.dart`",
+      "session_id": "ses_1aa2557e6ffenaSFdNA5k0yTjG",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-05-23T17:21:17.141Z",
+      "started_at": "2026-05-23T17:21:08.108Z",
+      "status": "completed",
+      "ended_at": "2026-05-23T17:21:17.141Z",
+      "elapsed_ms": 9033
+    },
+    "final-wave:f1": {
+      "task_key": "final-wave:f1",
+      "task_label": "F1",
+      "task_title": "**Plan Compliance Audit** — `oracle`",
+      "session_id": "ses_1aa247891ffe3qAMZDeEkZsTcx",
+      "agent": "oracle",
+      "updated_at": "2026-05-23T17:23:16.707Z",
+      "started_at": "2026-05-23T17:23:06.563Z",
+      "status": "completed",
+      "ended_at": "2026-05-23T17:23:16.707Z",
+      "elapsed_ms": 10144
+    }
+  },
+  "agent": "atlas"
+}
