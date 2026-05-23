@@ -2,7 +2,7 @@ library goldenhorse;
 
 import 'package:flutter/material.dart';
 import 'callApi.dart';
-import 'station_data.dart';
+// import 'station_data.dart';
 
 class GetOffLi extends StatelessWidget {
   final li;
@@ -180,11 +180,7 @@ class _GetOfficeState extends State<GetOffice> {
   }
 }
 
-/// A searchable, region-grouped station selection dialog.
-///
-/// Replaces the flat [GetOffice] dialog with a grouped experience:
-/// stations are organized by region, searchable by Arabic name,
-/// and duplicates are disambiguated with code suffixes.
+/// A searchable flat-list station selection dialog.
 class SearchableGetOffice extends StatefulWidget {
   final int direction;
   final VoidCallback notifyParent;
@@ -197,16 +193,13 @@ class SearchableGetOffice extends StatefulWidget {
 
 class _SearchableGetOfficeState extends State<SearchableGetOffice> {
   late TextEditingController _searchController;
-  List<StationGroup> _groups = [];
-  List<StationGroup> _filteredGroups = [];
-  bool isSearching = false;
+  List _filteredOffices = [];
 
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController();
-    _groups = groupStationsByRegion(offices);
-    _filteredGroups = _groups;
+    _filteredOffices = List.from(offices);
   }
 
   @override
@@ -239,7 +232,7 @@ class _SearchableGetOfficeState extends State<SearchableGetOffice> {
                         onPressed: () {
                           _searchController.clear();
                           setState(() {
-                            _filteredGroups = _groups;
+                            _filteredOffices = List.from(offices);
                           });
                         },
                       )
@@ -249,83 +242,81 @@ class _SearchableGetOfficeState extends State<SearchableGetOffice> {
               onChanged: (query) {
                 setState(() {
                   if (query.isEmpty) {
-                    _filteredGroups = _groups;
+                    _filteredOffices = List.from(offices);
                   } else {
-                    _filteredGroups = filterStations(_groups, query);
+                    final lowerQuery = query.toLowerCase();
+                    _filteredOffices = offices.where((o) =>
+                      (o['NameA'] as String).toLowerCase().contains(lowerQuery)
+                    ).toList();
                   }
                 });
               },
             ),
           ),
-          // Results area
+          // Flat results list (no grouping)
           Expanded(
-            child: _filteredGroups.isEmpty
+            child: _filteredOffices.isEmpty
                 ? const Center(child: Text('لا توجد نتائج'))
-                : ListView(
-                    children: _filteredGroups.map((group) {
-                      return ExpansionTile(
-                        title: Text(
-                          group.regionName,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        initiallyExpanded: false,
-                        children: group.stations.map((station) {
-                          // Disambiguate the duplicate stations (both named "أحمد حلمي")
-                          final isDuplicate =
-                              station.code == 585 || station.code == 2113;
-                          final displayName = isDuplicate
-                              ? '${station.nameA} (Code: ${station.code})'
-                              : station.nameA;
-                          final bool isSelected = widget.direction == 1
-                              ? codeFrom == station.code
-                              : codeTo == station.code;
+                : ListView.builder(
+                    itemCount: _filteredOffices.length,
+                    itemBuilder: (context, index) {
+                      final station = _filteredOffices[index];
+                      final code = station['Code'] as int;
+                      final nameA = station['NameA'] as String;
 
-                          return InkWell(
-                            onTap: () {
-                              if (widget.direction == 1) {
-                                codeFrom = station.code;
-                                officeNameFrom = station.nameA;
-                              } else {
-                                codeTo = station.code;
-                                officeNameTo = station.nameA;
-                              }
-                              widget.notifyParent();
-                              Navigator.of(context).pop();
-                            },
-                            child: Column(
-                              children: [
-                                Container(
-                                  alignment: Alignment.topRight,
-                                  padding: const EdgeInsets.fromLTRB(
-                                      30.0, 5.0, 30.0, 5.0),
-                                  child: Row(
-                                    textDirection: TextDirection.rtl,
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: Text(
-                                          displayName,
-                                          textAlign: TextAlign.end,
-                                          textDirection: TextDirection.ltr,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: isSelected
-                                            ? const Icon(Icons.check,
-                                                color: Colors.green)
-                                            : const Text(''),
-                                      ),
-                                    ],
+                      final isDuplicate =
+                          code == 585 || code == 2113;
+                      final displayName = isDuplicate
+                          ? '$nameA (Code: $code)'
+                          : nameA;
+                      final bool isSelected = widget.direction == 1
+                          ? codeFrom == code
+                          : codeTo == code;
+
+                      return InkWell(
+                        onTap: () {
+                          if (widget.direction == 1) {
+                            codeFrom = code;
+                            officeNameFrom = nameA;
+                          } else {
+                            codeTo = code;
+                            officeNameTo = nameA;
+                          }
+                          widget.notifyParent();
+                          Navigator.of(context).pop();
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.topRight,
+                              padding: const EdgeInsets.fromLTRB(
+                                  30.0, 5.0, 30.0, 5.0),
+                              child: Row(
+                                textDirection: TextDirection.rtl,
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(
+                                      displayName,
+                                      textAlign: TextAlign.end,
+                                      textDirection: TextDirection.ltr,
+                                    ),
                                   ),
-                                ),
-                                const Divider(),
-                              ],
+                                  Expanded(
+                                    flex: 1,
+                                    child: isSelected
+                                        ? const Icon(Icons.check,
+                                            color: Colors.green)
+                                        : const Text(''),
+                                  ),
+                                ],
+                              ),
                             ),
-                          );
-                        }).toList(),
+                            const Divider(),
+                          ],
+                        ),
                       );
-                    }).toList(),
+                    },
                   ),
           ),
         ],
