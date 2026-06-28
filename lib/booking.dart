@@ -33,6 +33,7 @@ class _BookingState extends State<Booking> {
     holdSeats().then((response) {
       card = json.decode(response.body);
       cardID = card['CardID'] ?? 0;
+      cardToken = card['CardToken'] ?? '';
       holdResult = card['Result'] ?? '';
       if (cardID == 0) {
         Navigator.pop(context);

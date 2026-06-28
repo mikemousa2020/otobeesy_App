@@ -14,7 +14,6 @@ class BookingNewPayByCredit extends StatefulWidget {
 class _BookingNewPayByCreditState extends State<BookingNewPayByCredit> {
   int result = 0;
   bool isLoading = true;
-  String cardToken = '';
   late WebViewController controller;
 
   @override
@@ -24,33 +23,11 @@ class _BookingNewPayByCreditState extends State<BookingNewPayByCredit> {
   }
 
   Future<void> _initPayment() async {
-    await _holdSeatsAndGetToken();
+    // cardToken is already saved globally by booking.dart's _hold() — no second HoldSeats needed
     if (cardToken.isNotEmpty) {
       _initWebView();
-    }
-  }
-
-  Future<void> _holdSeatsAndGetToken() async {
-    try {
-      final response = await holdSeats();
-      print('===> HoldSeats RESPONSE status: ${response.statusCode}');
-      var data = json.decode(response.body);
-      print('===> HoldSeats RESPONSE body: $data');
-      
-      if (data['CardToken'] != null && data['CardToken'].toString().isNotEmpty) {
-        cardToken = data['CardToken'];
-        print('===> CardToken extracted: $cardToken');
-      } else {
-        print('===> HoldSeats FAILED: No CardToken in response');
-        if (mounted) {
-          setState(() {
-            result = 2;
-            isLoading = false;
-          });
-        }
-      }
-    } catch (e) {
-      print('===> HoldSeats ERROR: $e');
+    } else {
+      print('===> ERROR: CardToken is empty — HoldSeats may have failed in booking page');
       if (mounted) {
         setState(() {
           result = 2;
