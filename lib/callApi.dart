@@ -2,6 +2,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'api_client.dart';
 import 'myClasses.dart';
 import 'package:path_provider/path_provider.dart';
 import 'trips.dart';
@@ -51,6 +52,7 @@ List seatsSelected = [];
 var trips = [];
 var card;
 int cardID = 0;
+String cardToken = '';
 double couponDisc = 0;
 String couponCode = '';
 bool isCouponNotFound = false;
@@ -285,7 +287,7 @@ String formatNum(double n) => n.toString().replaceAll('.0', '');
 Future<String> getOffices() async {
   //String s = 'https://gobus.me/api/V3/Login?userEmail=1&userPassword=1';
   String s = '$apiUrl/Stations?companyID=$companyID'; // 'https://gobus.me/api/V2/Stations?companyID=$companyID';
-  var r = await http.get(Uri.parse(s));
+  var r = await ApiClient.get(s);
   String ss = r.body;
   //offices = json.decode(ss);
   return ss;
@@ -293,7 +295,7 @@ Future<String> getOffices() async {
 
 // Future<String> getOffices2(int companyID) async{
 //   api = apiUrl + "Stations?companyID=$companyID" + apiToAdd();
-//   var v = await http.get(Uri.parse(api));
+//   var v = await ApiClient.get(api);
 //   String ss = v.body;
 //   offices = json.decode(ss);
 //   return ss;
@@ -301,55 +303,55 @@ Future<String> getOffices() async {
 
 Future getCouponsVal(String couponCode, int cardID) {
   api = "${apiUrl}GetCouponsVal?couponCode=$couponCode&cardID=$cardID${apiToAdd()}";
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 Future getCoupons() {
   api = "${apiUrl}GetCoupons?companyID=$companyID${apiToAdd()}";
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 
 Future getAppVer() {
   api = '${apiUrl}GetAppVer?companyID=$companyID${apiToAdd()}';
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 
 Future contactusSave(
     String userName, String userEmail, String userTelNo, String msg) {
   api =
       "${apiUrl}Contactus?Name=$userName&TelNo=$userTelNo&Email=$userEmail&companyID=$companyID&Msg=$msg${apiToAdd()}";
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 
 Future getMyTickets() {
   api = "${apiUrl}MyTickets?userID=${user.userID}${apiToAdd()}";
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 
 Future cancelSeats(String seatsIDs, int cardID) {
   api = "${apiUrl}CancelSeats?SeatsIDs=$seatsIDs&userID=${user.userID}&cardID=$cardID${apiToAdd()}";
-  return http.post(Uri.parse(api));
+  return ApiClient.post(api);
 }
 
 Future userProfileUpdate(String userName, String userEmail, String userTelNo) {
   api =
       "${apiUrl}profileUpdate?&userID=${user.userID}&userName=$userName&userEmail=$userEmail&userTelNo=$userTelNo&userToken=${user.userToken}${apiToAdd()}";
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 
 Future userPasswordUpdate(String userPassword, String userPasswordNew) {
   api =
       "${apiUrl}profileUpdate?userID=${user.userID}&passwordOnly=true&userPassword=$userPassword&userPasswordNew=$userPasswordNew&userToken=${user.userToken}";
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 
 Future getTripSeats(int id) {
   api = "${apiUrl}GetSeats?tripSubData_Id=$id${apiToAdd()}";
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 
 Future getCnfg(String cnfgName) {
   api = "${apiUrl}GetCnfg?companyID=$companyID&cnfgName=$cnfgName${apiToAdd()}";
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 
 Future holdSeats() {
@@ -360,12 +362,12 @@ Future holdSeats() {
         '&comeSeats=${myTripCome.seatsStr}&comeTripSubData_Id=${myTripCome.tripSubDataId}${apiToAdd()}';
   }
   print('===> HoldSeats REQUEST: $api');
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 
 Future fawrySave() {
   api = "${apiUrl}BookingSave_Fawry?couponCode=$couponCode&userID=${user.userID}&cardID=$cardID&seatsCount=${myTripGo.seatsCount + myTripCome.seatsCount}&totalPrice=${cardTotal - couponDisc}&companyID=$companyID&userToken=${user.userToken}${apiToAdd()}";
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 
 Future<String> get loacalPath async {
@@ -398,7 +400,7 @@ Future login(String socialID, String userEmail, String userPassword) {
   api = userEmail.isNotEmpty
       ? "${apiUrl}Login?userEmail=$userEmail&userPassword=$userPassword&companyID=$companyID&lang=true${apiToAdd()}"
       : '${apiUrl}Login?socialID=$socialID&companyID=$companyID&lang=true${apiToAdd()}';
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 
 Future signup(String socialID, String userName, String userEmail,
@@ -406,7 +408,7 @@ Future signup(String socialID, String userName, String userEmail,
   api =
       "${apiUrl}Signup?userName=$userName&userEmail=$userEmail&userTelNo=$userTelNo&userPassword=$userPassword&companyID=$companyID&lang=true" "&socialID=$socialID&pic_Url=$picUrl&socialTypeID=1" +
           apiToAdd();
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 
 Future getTrips() {
@@ -422,7 +424,7 @@ Future getTrips() {
 
   api =
       '${apiUrl}GetTrips?From=$_codeFrom&To=$_codeTo&tripDate=$tripDate&companyID=$companyID&token=$token${apiToAdd()}';
-  return http.get(Uri.parse(api));
+  return ApiClient.get(api);
 }
 
 void pageTrips(context) {
