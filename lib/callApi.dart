@@ -21,7 +21,7 @@ String appTitle = companyID == 10 ? 'اتوبيسى' : 'الحصان الذهب�
 List offices = [];
 bool isTest = false;
 double ver = 18;
-int appTypeID = 2; // 2 Android    3 IOS
+int appTypeID = Platform.isIOS ? 3 : 2; // 2 Android    3 IOS
 int codeFrom = companyID == 10 ? 585 : 34;
 int codeTo = companyID == 10 ? 2051 : 33;
 int resMinute = 4 * 60;
